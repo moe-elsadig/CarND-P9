@@ -1,4 +1,5 @@
 #include "PID.h"
+#include <iostream>
 
 using namespace std;
 
@@ -10,8 +11,10 @@ PID::PID() {}
 
 PID::~PID() {}
 
-double cte_sum = 0.;
-double cte_prev = -1.;
+// shared/continuous variables
+bool is_initialised = false;
+int run_steps = 0;
+double prev_cte;
 
 void PID::Init(double Kp, double Ki, double Kd) {
 
@@ -26,25 +29,30 @@ void PID::Init(double Kp, double Ki, double Kd) {
 
 void PID::UpdateError(double cte) {
 
-  PID::p_error = -Kp*cte;
+  // check whether this is the first step to set the prev_cte
+  // proportional error for step 1 will be 0.
+  if(!is_initialised){
 
-  if(cte_prev == -1.){
-
-    PID::d_error = 0.;
-  }else{
-
-    double cte_diff = cte - cte_prev;
-    PID::d_error = -Kd*cte_diff;
+    prev_cte = cte;
+    is_initialised = true;
   }
 
-  cte_prev = cte;
+  // run steps counter increment
+  run_steps += 1;
 
-  cte_sum += cte;
-  PID::i_error = -Ki*cte_sum;
+  // update proportional error
+  PID::p_error = cte;
+
+  // update integral error
+  PID::i_error += cte;
+
+  // update differential error
+  PID::d_error = cte - prev_cte;
+
 
 }
 
 double PID::TotalError() {
 
-  return (PID::p_error+ PID::d_error+ PID::i_error);
+  return (0.);
 }
