@@ -72,7 +72,7 @@ int main()
           cout << "pid.d_error\t" << pid.d_error << endl;
           cout << "pid.i_error\t" << pid.i_error << endl;
           cout << "speed\t" << speed << endl;
-
+          
           // Calculate the steering value
           steer_value = -pid.Kp*pid.p_error
                         -pid.Kd*pid.d_error
@@ -93,7 +93,13 @@ int main()
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          if(speed < 10){
+
+            msgJson["throttle"] = 0.3;
+          } else{
+
+            msgJson["throttle"] = 0.0;
+          }
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
