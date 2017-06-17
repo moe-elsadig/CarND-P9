@@ -49,10 +49,108 @@ void PID::UpdateError(double cte) {
   // update differential error
   PID::d_error = cte - prev_cte;
 
-
 }
 
 double PID::TotalError() {
 
   return (0.);
 }
+
+void PID::Twiddle(double angle) {
+
+
+  double run_err(double[] p_){
+
+
+    return 0.
+  }
+
+
+  // Twiddle tolerance
+  double tol = 0.2;
+
+  // increments
+  dp = [1., 1., 1.];
+
+  // init sum of increments
+  double dp_sum = 0.;
+  for(int i=0; i<dp.sizeof(); i++){ dp_sum += dp[i]; }
+
+  // coefficients
+  p = [PID::Kp, PID::Ki, PID::Kd];
+
+  // init best error
+  double best_err = run_err(p);
+
+  // loop counter
+  int iter = 0;
+
+  cout << "Twiddling...\n\t*******\nPlease wait..." << endl;
+
+  while(dp_sum > tol){
+
+    for(int i=0; i<3 ; i++){
+
+      // add the respective increment
+      p[i] += dp[i];
+
+      // get the current error
+      double curr_err = run_err(p);
+
+      // check if the new error is better
+      if(curr_err < best_err){
+
+        // if yes, continue the positive increment
+        best_err = curr_err;
+        dp[i] *= 1.1;
+      }else{
+
+        // if not, reverse the positive increment and try a negative increment
+        p[i] -= 2*dp[i];
+
+        // obtain a new current error
+        curr_err = run_err(p);
+
+        // check if the new error is better
+        if(curr_err < best_err){
+
+          // if yes, continue the negative increment
+          best_err = curr_err;
+          dp[i] *= 1.1;
+        }else{
+
+          // if not, continue the negative increment but decrease it's value
+          p[i] += dp[i];
+          dp[i] *= 0.9;
+        }
+      }
+    }
+
+    // increment the step counter
+    iter += 1;
+  }
+
+  // reassign the new values to the global coefficients' variables
+  PID::Kp, PID::Ki, PID::Kd = p;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//END

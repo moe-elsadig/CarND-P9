@@ -12,7 +12,7 @@ public:
 
   /*
   * Coefficients
-  */ 
+  */
   double Kp;
   double Ki;
   double Kd;
@@ -41,6 +41,11 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
+
+  /*
+  * Calculate the best values for the PID coefficients.
+  */
+  void Twiddle(double angle);
 };
 
 #endif /* PID_H */

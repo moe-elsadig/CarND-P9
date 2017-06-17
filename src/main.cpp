@@ -64,19 +64,23 @@ int main()
           pid.UpdateError(cte);
 
           // print variables and values for debugging purposes
-          cout << "cte\t" << cte << endl;
-          cout << "pid.Kp\t" << pid.Kp << endl;
-          cout << "pid.Kd\t" << pid.Kd << endl;
-          cout << "pid.Ki\t" << pid.Ki << endl;
-          cout << "pid.p_error\t" << pid.p_error << endl;
-          cout << "pid.d_error\t" << pid.d_error << endl;
-          cout << "pid.i_error\t" << pid.i_error << endl;
+          // cout << "cte\t" << cte << endl;
+          // cout << "pid.Kp\t" << pid.Kp << endl;
+          // cout << "pid.Kd\t" << pid.Kd << endl;
+          // cout << "pid.Ki\t" << pid.Ki << endl;
+          // cout << "pid.p_error\t" << pid.p_error << endl;
+          // cout << "pid.d_error\t" << pid.d_error << endl;
+          // cout << "pid.i_error\t" << pid.i_error << endl;
           cout << "speed\t" << speed << endl;
-          
+          cout << "angle\t" << angle << endl;
+
+
           // Calculate the steering value
           steer_value = -pid.Kp*pid.p_error
                         -pid.Kd*pid.d_error
                         -pid.Ki*pid.i_error;
+          cout << "steer_value\t" << steer_value << endl;
+
           // check that the steeing value is within bounfs
           if(steer_value > 1.){
 
