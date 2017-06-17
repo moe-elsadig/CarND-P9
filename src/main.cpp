@@ -62,7 +62,7 @@ int main()
 
           // update the error based on the new cte
           pid.UpdateError(cte);
-
+          pid.Twiddle(cte, speed, angle);
           // print variables and values for debugging purposes
           // cout << "cte\t" << cte << endl;
           // cout << "pid.Kp\t" << pid.Kp << endl;
