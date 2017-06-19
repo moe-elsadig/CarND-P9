@@ -67,14 +67,37 @@ int main()
 
           // debugging purposed printing
           cout
-          << "Kp" << pid.Kp << endl
-          << "p_error" << pid.p_error << endl
-          << "Ki" << pid.Ki << endl
-          << "i_error" << pid.i_error << endl
-          << "Kd" << pid.Kd << endl
-          << "d_error" << pid.d_error << endl;
+          << "Kp\t" << pid.Kp << endl
+          << "p_error\t" << pid.p_error << endl
+          << "Ki\t" << pid.Ki << endl
+          << "i_error\t" << pid.i_error << endl
+          << "Kd\t" << pid.Kd << endl
+          << "d_error\t" << pid.d_error << endl;
 
-          // calculate the steering value
+          // calculate the steering value P
+          // steer_value = -pid.Kp*pid.p_error;
+
+          // // calculate the steering value I
+          // steer_value = -pid.Ki*pid.i_error;
+          //
+          // // calculate the steering value D
+          // steer_value = -pid.Kd*pid.d_error;
+          //
+          // // calculate the steering value PI
+          // steer_value = -pid.Kp*pid.p_error
+          //               -pid.Ki*pid.i_error;
+          //
+
+          // this one works
+          // // calculate the steering value PD
+          // steer_value = -pid.Kp*pid.p_error
+          //               -pid.Kd*pid.d_error;
+
+          // calculate the steering value ID
+          // steer_value = -pid.Ki*pid.i_error
+          //               -pid.Kd*pid.d_error;
+          //this one works too
+          // calculate the steering value PID
           steer_value = -pid.Kp*pid.p_error
                         -pid.Ki*pid.i_error
                         -pid.Kd*pid.d_error;
