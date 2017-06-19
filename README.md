@@ -2,6 +2,33 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+## Please check the end for the dependencies etc.
+
+# PID, a history...(or just a reflection!)
+
+> https://youtu.be/izlENH4_QFw
+
+You can watch the above video where the PID controller was tried and tested against it's individual components (the P, the I and the D) and you can see and judge for yourself how they affected each run in turn.
+
+### Or I could just tell you!?
+
+## The solo round!
+
+P: Starts off alright, slight wobble, more wobbling, significant sharp turns!, funeral.
+I: Starts off, ..., funeral.
+D: Smooth, drifting from the center more and more, hanging on to the edge of the road, still at the edge but from the other side?..., funeral.
+
+## Prom King and Queen
+
+PI: Starting off, no chemistry though, breakup.
+PD: Oohlala!, beautiful start, smooth sailing, the turns are sharp from aggressive compensation of mistakes, what a couple!. 
+DI: There's a match!, wobbling more and more, trying hard to sync up, on again off again track wise, didn't make it, they're still friends though. 
+
+## Together, we prevail.
+
+PID: Now here is a championship team, there's wobble from P, but D takes charge taking it down bit by bit, the turns are too sharp though and I is just waiting for them! diverting the blow smoothly to veer away and all work together to recenter the vehicle. Their goal is to win, in all straights and turns, together they win.
+
+### The coefficients used here are the ones from teh lessons, since starting with 0's and 1's didn't pan out so well with error calculations.
 
 ## Dependencies
 
