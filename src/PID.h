@@ -41,16 +41,6 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
-
-  /*
-  * Calculate the best values for the PID coefficients.
-  */
-  void Twiddle(double cte, double speed, double angle);
-
-  /*
-  * Calculate the best values for the PID coefficients.
-  */
-  double run_err(double p[], double cte, double speed, double angle);
 };
 
 #endif /* PID_H */

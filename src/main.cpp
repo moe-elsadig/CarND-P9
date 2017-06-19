@@ -6,7 +6,8 @@
 
 // for convenience
 using json = nlohmann::json;
-using namespace std;
+using namespace std; // I added this
+
 // For converting back and forth between radians and degrees.
 constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
@@ -34,8 +35,9 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-
-  pid.Init(0.2,0.004,3.0);
+  // pid.Init(0.,0.,0.);
+  pid.Init(0.2,0.004,3.);
+  // pid.Init(0.,0.,0.);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -60,50 +62,30 @@ int main()
           * another PID controller to control the speed!
           */
 
-          // update the error based on the new cte
+          // run the update function
           pid.UpdateError(cte);
-          pid.Twiddle(cte, speed, angle);
-          // print variables and values for debugging purposes
-          // cout << "cte\t" << cte << endl;
-          // cout << "pid.Kp\t" << pid.Kp << endl;
-          // cout << "pid.Kd\t" << pid.Kd << endl;
-          // cout << "pid.Ki\t" << pid.Ki << endl;
-          // cout << "pid.p_error\t" << pid.p_error << endl;
-          // cout << "pid.d_error\t" << pid.d_error << endl;
-          // cout << "pid.i_error\t" << pid.i_error << endl;
-          cout << "speed\t" << speed << endl;
-          cout << "angle\t" << angle << endl;
 
+          // debugging purposed printing
+          cout
+          << "Kp" << pid.Kp << endl
+          << "p_error" << pid.p_error << endl
+          << "Ki" << pid.Ki << endl
+          << "i_error" << pid.i_error << endl
+          << "Kd" << pid.Kd << endl
+          << "d_error" << pid.d_error << endl;
 
-          // Calculate the steering value
+          // calculate the steering value
           steer_value = -pid.Kp*pid.p_error
-                        -pid.Kd*pid.d_error
-                        -pid.Ki*pid.i_error;
-          cout << "steer_value\t" << steer_value << endl;
+                        -pid.Ki*pid.i_error
+                        -pid.Kd*pid.d_error;
 
-          // check that the steeing value is within bounfs
-          if(steer_value > 1.){
-
-            steer_value = 1.;
-          }else if(steer_value < -1.){
-
-            steer_value = -1;
-          }
-
-          cout << "steer_value\t" << steer_value << endl;
 
           // DEBUG
-          // std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          if(speed < 10){
-
-            msgJson["throttle"] = 0.3;
-          } else{
-
-            msgJson["throttle"] = 0.0;
-          }
+          msgJson["throttle"] = 0.3;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
